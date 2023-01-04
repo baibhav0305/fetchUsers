@@ -12,18 +12,23 @@ const Container = styled.div`
   padding: 2rem;
 `;
 
-const Name = styled.div``;
-const Info = styled.div``;
-
 const Details = () => {
   const user = useSelector((state) => state.user);
   return (
     <Container>
-      <img src={user.avatar} alt="avatar" />
-      <div>
-        <p>{`${user.first_name} ${user.last_name}`}</p>
-        <p>{user.email}</p>
-      </div>
+      {user.id ? (
+        <>
+          <img src={user.avatar} alt="avatar" />
+          <div>
+            <p>{`${user.first_name} ${user.last_name}`}</p>
+            <p>{user.email}</p>
+          </div>
+        </>
+      ) : (
+        <>
+          <h5>Please click on any user tab for more information</h5>
+        </>
+      )}
     </Container>
   );
 };

@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleUserList } from "../state";
+import { getAllUsers } from "../state";
 import User from "./User";
 import styled from "styled-components";
 
@@ -17,22 +16,17 @@ const Wrapper = styled.div`
 const UserList = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
-
-  const getUsers = async () => {
-    const response = await axios.get("https://reqres.in/api/users");
-    dispatch(handleUserList({ users: response.data.data }));
-  };
+  const isLoading = useSelector((state) => state.isLoading);
 
   useEffect(() => {
-    getUsers();
+    dispatch(getAllUsers());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Wrapper>
-      {users.map((user) => (
-        <User key={user.id} user={user} />
-      ))}
+      {isLoading && <h4>Loading ...</h4>}
+      {!isLoading && users.map((user) => <User key={user.id} user={user} />)}
     </Wrapper>
   );
 };
